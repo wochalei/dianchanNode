@@ -1,5 +1,5 @@
 class formatData{
-    constructor(ctx,data=null,msg="success",extra='null',code=200){
+    constructor(ctx,data=null,msg="success",extra=null,code=200){
         this.ctx=ctx;
         this.data=data;
         this.msg=msg;
@@ -7,12 +7,13 @@ class formatData{
         this.code=code;
     }
     sendBody(){
-        this.ctx.body = {
+      
+         this.ctx.body = {
             msg:this.msg,
             data:this.data,
             extra:this.extra,
             code:this.code
-        }
+        } 
     }
 }
 module.exports = formatData

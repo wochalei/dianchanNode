@@ -1,7 +1,9 @@
 const app = require('./app/index')
-const route = require('./routes/route')
+const koaBody = require('koa-body')
+const user = require('./routes/user')
 const handError = require('./middleware/handlError')
+app.use(koaBody({ multipart: true }))
 app.use(handError)
-app.use(route.routes())
+app.use(user.routes())
 
-app.listen(3000);
+app.listen(3000)
