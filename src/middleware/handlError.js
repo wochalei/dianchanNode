@@ -8,13 +8,13 @@ const handError = async (ctx,next)=>{
     try{
            await next();
     }catch(e){
-     
+        console.log(e);
         if(e instanceof error){
            
             ctx.body=e
             ctx.status = e.code;
         }else{
-            console.log(e);
+            
             ctx.body =  '服务器未知错误';
             ctx.status = 500;
         }        

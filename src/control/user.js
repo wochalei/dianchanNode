@@ -12,9 +12,11 @@ class User {
      const res = await DB.link("get", sql);  
      //只有查询失败，link就会抛出错误，被全局捕获，但是这种是查询成功，且无对应数据
      //所以要手动 返回错误格式。
+     
      if(res.data.data.length==0) return new formatResponseData(ctx,null,'无此账号或密码错误').sendBody();
      const token = new Token().sign({ account, password });
-     new formatResponseData(ctx,{token}).sendBody();
+     const id = JSON.parse(res.data.data[0])._id;
+     new formatResponseData(ctx,{token,id}).sendBody();
   }
   async register(ctx) {
 

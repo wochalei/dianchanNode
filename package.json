@@ -1,11 +1,15 @@
 {
   "dependencies": {
+    "@koa/multer": "^3.0.0",
     "axios": "^0.27.2",
+    "cos-nodejs-sdk-v5": "^2.11.12",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.4",
     "koa-body": "^5.0.0",
     "koa-router": "^10.1.1",
-    "koa2-cors": "^2.0.6"
+    "koa2-cors": "^2.0.6",
+    "multer": "^1.4.4",
+    "wx-server-sdk": "^2.6.3"
   },
   "scripts": {
     "dev": "nodemon ./src/main.js"
