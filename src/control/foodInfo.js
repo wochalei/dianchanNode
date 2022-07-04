@@ -13,7 +13,7 @@ class Dishes {
     new formatResponseData(ctx, res.data.data).sendBody();
   }
   async add(ctx) {
-    const { userId, category, images, name, monthlySale, unitPrice, unit, count, time } = ctx.request.body;
+    const { userId, category, images, name, monthlySale, unitPrice, unit, count, time,isUp } = ctx.request.body;
     const getSql = `db.collection("foodInfo").where({name:"${name}"}).get()`;
     const addSql = `db.collection("foodInfo").add({
           data:[
@@ -27,6 +27,7 @@ class Dishes {
                   unit:"${unit}",
                   time:"${time}",
                   count:${count},
+                  isUp:${isUp}
               }
           ]
       })`
