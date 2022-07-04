@@ -30,7 +30,7 @@ class ShopInfo {
             userId:"${userId}"}
         ]})`;
         const addRes = await DB.link('add', add);
-        console.log(addRes);
+        
         new formatResponseData(ctx, { userId: addRes.data.id_list }, '添加成功').sendBody()
     }
     async updated(ctx) {

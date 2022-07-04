@@ -14,7 +14,8 @@ class DB {
         this.urlMap = {
             get: `https://api.weixin.qq.com/tcb/databasequery`,
             add: ' https://api.weixin.qq.com/tcb/databaseadd',
-            updated:"https://api.weixin.qq.com/tcb/databaseupdate"
+            updated:"https://api.weixin.qq.com/tcb/databaseupdate",
+            deleted:'https://api.weixin.qq.com/tcb/databasedelete'
         }
     }
     //获取连接数据库凭证
