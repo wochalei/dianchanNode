@@ -66,10 +66,7 @@ class DB {
     }
     async uploadFile(filename, filePath) {
 
-        const cos = new COS({
-            SecretId: 'AKIDjIbfQv97oFPKyLSIsBCwQdZEdlcCVYKp',
-            SecretKey: 'GG0TfaEciX6NO7alfIekZ7PRs9C1bx4x'
-        });
+        
         try {
              const res =  await cos.uploadFile({
                 Bucket: 'wang-1312767572', /* 填入您自己的存储桶，必须字段 */
