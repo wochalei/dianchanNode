@@ -6,6 +6,7 @@ const shopInfo = require('./routes/shopInfo')
 const foodTypes = require('./routes/foodTypes')
 const foodInfo = require('./routes/foodInfo')
 const foodUnits = require('./routes/foodUnits')
+const order = require('./routes/order')
 const handError = require('./middleware/handlError')
 
 
@@ -17,4 +18,5 @@ app.use(shopInfo.routes())
 app.use(foodTypes.routes())
 app.use(foodInfo.routes())
 app.use(foodUnits.routes())
+app.use(order.routes())
 app.listen(3000)

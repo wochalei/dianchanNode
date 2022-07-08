@@ -10,7 +10,8 @@ class FoodTypes {
         const { userId } = ctx.request.body;
         const sql = `db.collection("foodTypes").where({userId:"${userId}"}).get()`
         const res = await DB.link('get', sql);
-        new formatResponseData(ctx,res.data.data).sendBody();
+        
+        new formatResponseData(ctx,res).sendBody();
     }
     async add(ctx) {
         const { userId,value,label,count } = ctx.request.body;

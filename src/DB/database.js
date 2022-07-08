@@ -51,8 +51,11 @@ class DB {
 
             if (res.data.errcode != 0) {
                 throw res.data.errmsg;
-            } else {
-                return new success('success', 200, res.data)
+            } else {  
+                 
+                const data = res.data.data.map((item)=>JSON.parse(item));
+              
+                return new success('success', 200, data)
             }
         } catch (e) {
 
