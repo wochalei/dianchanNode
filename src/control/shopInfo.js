@@ -7,12 +7,11 @@ class ShopInfo {
     }
     async get(ctx) {
         const { userId } = ctx.request.body;
-        const sql = `db.collection("shop_info").where({userId:"${userId}"}).get()`;
+        const sql = `db.collection("shop_info").get()`;
         const res = await DB.link('get', sql);
-        //像get这种获取成功数据为零的情况要额外 formatResponseData
-        //其他语句就不用再写，因为我DB里设置了执行错误就抛出给全局捕获
-        if (res.data.data.length == 0) return new formatResponseData(ctx, null, '信息不存在').sendBody();
-        const data = JSON.parse(res.data.data[0]) 
+
+        if (res.data.length == 0) return new formatResponseData(ctx, null, '信息不存在').sendBody();
+        const data = res.data[0]; 
         new formatResponseData(ctx, data).sendBody();
     }
     async add(ctx) {

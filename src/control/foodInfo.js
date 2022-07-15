@@ -22,7 +22,7 @@ class Dishes {
                   category:"${category}",
                   images:"${images}",
                   name:"${name}",
-                  monthlySale:"${monthlySale}",
+                  monthlySale:${monthlySale},
                   unitPrice:"${unitPrice}",
                   unit:"${unit}",
                   time:"${time}",

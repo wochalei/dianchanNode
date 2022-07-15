@@ -2,20 +2,26 @@ const COS = require('cos-nodejs-sdk-v5');
 const axios = require('axios')
 const qs = require('querystring');
 const config = require('../config/db_config')
+const tx_config = require('../config/db_config')
 const { error, success } = require('../model/responseModel')
 const param = qs.stringify({
     grant_type: config.grant_type,
     appid: config.appid,
     secret: config.secret
 })
-
+const cos = new COS({
+    SecretId: 'AKIDjIbfQv97oFPKyLSIsBCwQdZEdlcCVYKp',
+    SecretKey: 'GG0TfaEciX6NO7alfIekZ7PRs9C1bx4x'
+});
 class DB {
     constructor() {
         this.urlMap = {
             get: `https://api.weixin.qq.com/tcb/databasequery`,
             add: ' https://api.weixin.qq.com/tcb/databaseadd',
-            updated:"https://api.weixin.qq.com/tcb/databaseupdate",
-            deleted:'https://api.weixin.qq.com/tcb/databasedelete'
+            updated: "https://api.weixin.qq.com/tcb/databaseupdate",
+            deleted: 'https://api.weixin.qq.com/tcb/databasedelete',
+            send: 'https://api.weixin.qq.com/cgi-bin/message/subscribe/send',
+            qr: 'https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode'
         }
     }
     //获取连接数据库凭证
@@ -51,10 +57,14 @@ class DB {
 
             if (res.data.errcode != 0) {
                 throw res.data.errmsg;
-            } else {  
-                 
-                const data = res.data.data.map((item)=>JSON.parse(item));
-              
+            } else {
+                let data;
+                if (res.data.data) {
+                    data = res.data.data.map((item) => JSON.parse(item));
+                    data.pager = res.data.pager;
+                } else {
+                    data = res.data;
+                }
                 return new success('success', 200, data)
             }
         } catch (e) {
@@ -66,20 +76,59 @@ class DB {
     }
     async uploadFile(filename, filePath) {
 
-        
+      
         try {
-             const res =  await cos.uploadFile({
-                Bucket: 'wang-1312767572', /* 填入您自己的存储桶，必须字段 */
-                Region: 'ap-guangzhou',  /* 存储桶所在地域，例如ap-beijing，必须字段 */
+            const res = await cos.uploadFile({
+                Bucket: tx_config.Bucket, /* 填入您自己的存储桶，必须字段 */
+                Region: tx_config.Region,  /* 存储桶所在地域，例如ap-beijing，必须字段 */
                 Key: "dianchang/" + filename,  /* 存储在桶里的对象键（例如1.jpg，a/b/test.txt），必须字段 */
                 FilePath: filePath,                /* 必须 */
             });
-           return res;
+            return res;
         } catch (e) {
             console.log(e);
         }
-       
 
+
+    }
+    async sendTemplate(obj) {
+        const token = await this.gettoken();
+        try {
+            return await axios({
+                method: 'post',
+                url: this.urlMap["send"] + "?access_token=" + token,
+                data: {
+                    touser: obj.touser,
+                    template_id: obj.template_id,
+                    data: obj.data,
+                    miniprogram_state: 'developer'
+                }
+            })
+
+
+        } catch (e) {
+            throw e
+        }
+    }
+    async addQr(number) {
+        const token = await this.gettoken();
+        const res = await axios({
+            method: 'post',
+            url: this.urlMap['qr'] + "?access_token=" + token,
+            data: {
+                path: 'pages/chooseman/index?number=' + number
+            },
+            responseType: 'arraybuffer'
+        })
+        return res
+    }
+    async putQrTx(tmp){
+     return await cos.putObject({
+            Bucket: 'wang-1312767572', /* 填入您自己的存储桶，必须字段 */
+            Region: 'ap-guangzhou',  /* 存储桶所在地域，例如ap-beijing，必须字段 */
+            Key: "dianchang/" + Date.now()+'.jpg',  /* 存储在桶里的对象键（例如1.jpg，a/b/test.txt），必须字段 */
+            Body: Buffer.from(tmp),
+        })
     }
 }
 

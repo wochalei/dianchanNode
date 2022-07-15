@@ -1,9 +1,10 @@
 const router = require('koa-router')();
-const {get,add,updated,deleted} = require('../control/order');
+const {get,getDetails,accptStatus,accptOrder} = require('../control/order');
 const verifyToken = require('../middleware/verifyToken')
 router.post('/order/get',get)
-router.post('/order/add',add)
-router.post('/order/updated',updated)
-router.post('/order/deleted',deleted)
+router.post('/order/getDetails',getDetails)
+router.post('/order/accptStatus',accptStatus)
+router.post('/order/accptOrder',accptOrder)
+
 
 module.exports=router;
