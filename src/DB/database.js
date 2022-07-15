@@ -10,8 +10,7 @@ const param = qs.stringify({
     secret: config.secret
 })
 const cos = new COS({
-    SecretId: 'AKIDjIbfQv97oFPKyLSIsBCwQdZEdlcCVYKp',
-    SecretKey: 'GG0TfaEciX6NO7alfIekZ7PRs9C1bx4x'
+   
 });
 class DB {
     constructor() {
